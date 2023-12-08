@@ -20,6 +20,7 @@ export class AuthService {
     body.set('scope', environment.scope);
     body.set('code_verifier', environment.code_verifier);
     body.set('code', code);
+    body.set('host', 'localhost');
     const basic_auth = 'Basic ' + btoa('client:secret');
     const headers_object = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

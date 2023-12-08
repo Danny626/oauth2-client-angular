@@ -9,5 +9,5 @@ export const resourceInterceptor: HttpInterceptorFn = (req, next) => {
   if(token != null && req.url.includes('resource')) {
     intReq = req.clone({headers: req.headers.set('Authorization', 'Bearer ' + token)});
   }
-  return next(req);
+  return next(intReq);
 };
