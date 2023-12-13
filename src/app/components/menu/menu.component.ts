@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-menu',
@@ -15,6 +16,9 @@ export class MenuComponent implements OnInit {
   authorize_uri = environment.authorize_uri;
   logout_url = environment.logout_url;
 
+  isLogged: boolean;
+  isAdmin: boolean;
+
   params: any = {
     client_id: environment.client_id,
     redirect_uri: environment.redirect_uri,
@@ -26,7 +30,7 @@ export class MenuComponent implements OnInit {
   }
 
   constructor(
-    private router: Router
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {}
@@ -34,12 +38,17 @@ export class MenuComponent implements OnInit {
   onLogin(): void {
     const httpParams = new HttpParams({fromObject: this.params})
     const codeUrl = this.authorize_uri + httpParams.toString();
-    console.log('codeUrl', codeUrl);
     location.href = codeUrl;
   }
 
   onLogout(): void {
+    this.tokenService.clear();
     location.href = this.logout_url;
+  }
+
+  getLogged(): void {
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
 }
