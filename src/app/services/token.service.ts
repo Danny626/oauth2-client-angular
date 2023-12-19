@@ -40,7 +40,7 @@ export class TokenService {
   }
 
   isAdmin(): boolean {
-    if (!this.isLogged) {
+    if (!this.isLogged()) {
       return false;
     }
     const token = this.getAccessToken();
